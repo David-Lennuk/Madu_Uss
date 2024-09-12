@@ -68,7 +68,7 @@ namespace Madu_Uss
             //------------------------------------------------------
 
 
-            Console.SetBufferSize(80, 25);
+            Console.SetWindowSize(80, 27);
             HorizontalLine upLine = new HorizontalLine(0, 78, 0, '+');
             HorizontalLine downLine = new HorizontalLine(0, 78, 24, '+');
             VerticalLine leftLine = new VerticalLine(0, 24, 0, '+');
@@ -80,9 +80,9 @@ namespace Madu_Uss
 
             Point p = new Point(4, 5, '*');
             p.Draw();
+            Snake snake = new Snake(p, 4, Directory.RIGHT);
+            snake.Drow();
 
-
-            Console.ReadLine();
         }                                                                                                                                                                      
     }
 }
