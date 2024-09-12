@@ -12,21 +12,62 @@ namespace Madu_Uss
         public int y;
         public char sym;
 
-        public Point()
+        public Point(){}
+        
+        public Point(int X, int Y, char Sym)
         {
-            //Console.WriteLine("luuakse uus punkt");
+            x = X;
+            y = Y;
+            sym = Sym;
         }
-        public Point(int _x, int _y, char _sym)
+        
+        public Point(Point p)
         {
-            x = _x;
-            y = _y;
-            sym = _sym;
+            x = p.x;
+            y = p.y;
+            sym = p.sym;
+        }
+        
+        public void Move(int offset, Direction direction)
+        {
+            if (direction == Direction.RIGHT)
+            {
+                x = x + offset;
+            }
+            else if (direction == Direction.LEFT)
+            {
+                x = x - offset;
+            }
+            else if (direction == Direction.UP)
+            {
+                y = y - offset;
+            }
+            else
+            {
+                y = y + offset;
+            }
         }
 
-        public void Draw()
+        public bool KasLoob(Point p)
+        {
+            return p.x == this.x && p.y == this.y;
+        }
+
+        public void Draw(int x, int y, char sym)
         {
             Console.SetCursorPosition(x, y);
             Console.WriteLine(sym);
+        }
+
+                public void Tuhjenda()
+        {
+            sym = ' ';
+            Draw(x, y, sym);
+        }
+
+        public override string ToString()
+        {
+            return x + ", " + y + ", " + sym;
         }
     }
 }
