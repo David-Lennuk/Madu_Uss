@@ -1,4 +1,3 @@
-using Madu_Uss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Madu_Uus
 {
-    class Figure
+    internal class Figure
     {
         protected List<Point> pList;
         public virtual void Draw()
@@ -16,6 +15,24 @@ namespace Madu_Uus
             {
                 p.Draw(p.x, p.y, p.sym);
             }
+        }
+        internal bool IsHit(Figure figure) 
+        {
+            foreach(var p in pList)
+            {
+                if (figure.IsHit(p))
+                    return true;
+            }
+            return false;
+        }
+        private bool IsHit(Point point) 
+        {
+            foreach(var p in pList)
+            {
+                if (p.IsHit(point))
+                    return true;
+            }
+            return false;
         }
     }
 }
