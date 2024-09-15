@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Madu_Uss
+namespace Madu_Uus
 {
     internal class Point
     {
@@ -12,22 +12,22 @@ namespace Madu_Uss
         public int y;
         public char sym;
 
-        public Point(){}
-        
-        public Point(int X, int Y, char Sym)
+        public Point() { }
+
+        public Point(int _x, int _y, char _sym)
         {
-            x = X;
-            y = Y;
-            sym = Sym;
+            x = _x;
+            y = _y;
+            sym = _sym;
         }
-        
+
         public Point(Point p)
         {
             x = p.x;
             y = p.y;
             sym = p.sym;
         }
-        
+
         public void Move(int offset, Direction direction)
         {
             if (direction == Direction.RIGHT)
@@ -42,13 +42,13 @@ namespace Madu_Uss
             {
                 y = y - offset;
             }
-            else
+            else if (direction == Direction.DOWN)
             {
                 y = y + offset;
             }
         }
 
-        public bool KasLoob(Point p)
+        public bool IsHit(Point p)
         {
             return p.x == this.x && p.y == this.y;
         }
@@ -56,10 +56,10 @@ namespace Madu_Uss
         public void Draw(int x, int y, char sym)
         {
             Console.SetCursorPosition(x, y);
-            Console.WriteLine(sym);
+            Console.Write(sym);
         }
 
-                public void Tuhjenda()
+        public void Clear()
         {
             sym = ' ';
             Draw(x, y, sym);
