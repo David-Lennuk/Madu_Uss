@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Madu_Uss
+namespace Madu_Uus
 {
-    internal class HorizontalLine
+    internal class HorizontalLine : Figure
     {
-        List<Point> pList;
         public HorizontalLine(int xLeft, int xReight, int y, char sym)
         {
             pList = new List<Point>();
@@ -18,20 +17,12 @@ namespace Madu_Uss
                 Point p = new Point(x, y, sym);
                 pList.Add(p);
             }
-            //tund 7
-            //Point p1 = new Point(4, 4, '*');
-            //Point p2 = new Point(5, 4, '*');
-            //Point p3 = new Point(6, 4, '*');
-            //pList.Add(p1);
-            //pList.Add(p2);
-            //pList.Add(p3);
         }
-        public void Drow()
+        public override void Draw()
         {
-            foreach (Point p in pList)
-            {
-                p.Draw();
-            }
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            base.Draw();
+            Console.ForegroundColor= ConsoleColor.White;
         }
     }
 }
