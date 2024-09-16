@@ -15,7 +15,7 @@ namespace Madu_Uus
         {
             Console.SetWindowSize(80, 25);
 
-            Walls walls = new Walls(80, 25);
+            Walls walls = new Walls(25, 80);
             walls.Draw();
 
             Point p = new Point(4, 5, '*');
@@ -26,7 +26,7 @@ namespace Madu_Uus
             Point food = foodCreator.CreateFood();
             food.Draw(food.x, food.y, food.sym);
 
-            while (true) 
+            while (true)
             {
                 if (walls.IsHit(snake) || snake.IsHitTail())
                 {
@@ -42,6 +42,11 @@ namespace Madu_Uus
                     snake.Move();
                 }
                 Thread.Sleep(100);
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    snake.HandleKey(key.Key);
+                }
             }
 
 
