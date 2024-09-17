@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Madu_Uus
@@ -8,6 +9,10 @@ namespace Madu_Uus
     {
         static void Main(string[] args)
         {
+            // Запрос имени пользователя
+            Console.Write("Sisestage oma nimi: ");
+            string playerName = Console.ReadLine();
+
             int foodCounter = 0;
             string gameOver = "Game Over";
             string message = "Iidi, võtta jalad alla ja muru peal jaluta!";
@@ -74,7 +79,7 @@ namespace Madu_Uus
                 {
                     Console.SetCursorPosition((Console.WindowWidth - message.Length) / 2, Console.WindowHeight / 2);
                     Console.WriteLine(message);
-                    messageDisplayed = true; // Устанавливаем флаг, что сообщение показано
+                    messageDisplayed = true;
                 }
 
                 Thread.Sleep(100);
@@ -86,10 +91,46 @@ namespace Madu_Uus
                 }
             }
 
+            // Сохраняем результаты игрока в файл
+            SaveScore(playerName, foodCounter);
+
+            // Выводим список игроков с их результатами
+            DisplayScores();
+
             // Ожидаем нажатие клавиши перед завершением программы
             Console.SetCursorPosition(0, Console.WindowHeight - 1);
             Console.WriteLine("Väljumiseks vajutage suvalist klahvi...");
             Console.ReadKey();
+        }
+
+        // Метод для сохранения имени и очков в файл
+        static void SaveScore(string playerName, int score)
+        {
+            string filePath = "nimekirja.txt";
+            using (StreamWriter sw = new StreamWriter(filePath, true))
+            {
+                sw.WriteLine($"{playerName}:{score}");
+            }
+        }
+
+        // Метод для отображения списка игроков с их результатами
+        static void DisplayScores()
+        {
+            string filePath = "nimekirja.txt";
+            Console.WriteLine("\nMängijad ja nende punktid:");
+
+            if (File.Exists(filePath))
+            {
+                string[] scores = File.ReadAllLines(filePath);
+                foreach (string score in scores)
+                {
+                    Console.WriteLine(score);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Veel pole tulemusi.");
+            }
         }
     }
 }
