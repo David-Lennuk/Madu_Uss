@@ -35,7 +35,6 @@ namespace Madu_Uus
             // Создаем и запускаем таймер
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-
             while (!gameOverFlag)
             {
                 if (walls.IsHit(snake) || snake.IsHitTail())
@@ -61,7 +60,10 @@ namespace Madu_Uus
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         snake.Move();
+                        Console.ForegroundColor = ConsoleColor.Red;
+
                     }
                 }
 
@@ -71,10 +73,10 @@ namespace Madu_Uus
 
                 // Показываем прошедшее время
                 TimeSpan elapsedTime = stopwatch.Elapsed;
-                Console.SetCursorPosition(Console.WindowWidth - 15, 0);
+                Console.SetCursorPosition(Console.WindowWidth - 10, 0);
                 Console.Write($"Aeg: {elapsedTime.Minutes:D2}:{elapsedTime.Seconds:D2}");
 
-                // Проверяем, прошло ли 2 минуты и не было ли сообщение уже показано
+                // Проверяем, прошло ли 1 минуты и не было ли сообщение уже показано
                 if (elapsedTime.TotalMinutes >= 1 && !messageDisplayed)
                 {
                     Console.SetCursorPosition((Console.WindowWidth - message.Length) / 2, Console.WindowHeight / 2);
@@ -91,37 +93,44 @@ namespace Madu_Uus
                 }
             }
 
-            // Сохраняем результаты игрока в файл
-            SaveScore(playerName, foodCounter);
+            // Сохраняем результаты после окончания игры
+            SaveScore(playerName, foodCounter, stopwatch.Elapsed);
 
             // Выводим список игроков с их результатами
             DisplayScores();
 
             // Ожидаем нажатие клавиши перед завершением программы
             Console.SetCursorPosition(0, Console.WindowHeight - 1);
-            Console.WriteLine("Väljumiseks vajutage suvalist klahvi...");
+            Console.WriteLine("Väljumiseks vajutage suvalist klahvi");
             Console.ReadKey();
         }
 
-        // Метод для сохранения имени и очков в файл
-        static void SaveScore(string playerName, int score)
+        // Метод для сохранения имени, очков и времени в файл
+        static void SaveScore(string playerName, int score, TimeSpan elapsedTime)
         {
-            string filePath = "nimekirja.txt";
-            using (StreamWriter sw = new StreamWriter(filePath, true))
+            try
             {
-                sw.WriteLine($"{playerName}:{score}");
+                using (StreamWriter sw = new StreamWriter(@"..\..\..\nimekirja.txt", true))
+                {
+                    string timeFormatted = $"{elapsedTime.Minutes:D2}:{elapsedTime.Seconds:D2}";
+                    sw.WriteLine($"{playerName}:{score}--{timeFormatted}");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Fail ei leitud: ");
             }
         }
 
         // Метод для отображения списка игроков с их результатами
         static void DisplayScores()
         {
-            string filePath = "nimekirja.txt";
+            string file = @"..\..\..\nimekirja.txt";
             Console.WriteLine("\nMängijad ja nende punktid:");
 
-            if (File.Exists(filePath))
+            if (File.Exists(file))
             {
-                string[] scores = File.ReadAllLines(filePath);
+                string[] scores = File.ReadAllLines(file);
                 foreach (string score in scores)
                 {
                     Console.WriteLine(score);
